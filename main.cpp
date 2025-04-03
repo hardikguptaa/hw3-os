@@ -1,16 +1,14 @@
-/************************************************************
- * main.cpp
- * 
- * Corrected Demand Paging Example
- *  - Random replacement policy
- *  - FIFO replacement policy
- *  - Custom policy placeholder
- * 
- * Compile and run:
- *   ./virtmem <npages> <nframes> <rand|fifo|custom> <program>
- * 
- * The <program> can be: "scan", "focus", or "sort".
- ************************************************************/
+//  * main.cpp
+//  * 
+//  * Corrected Demand Paging Example
+//  *  - Random replacement policy
+//  *  - FIFO replacement policy
+//  *  - Custom policy placeholder
+//  * 
+//  * Compile and run:
+//  *   ./virtmem <npages> <nframes> <rand|fifo|custom> <program>
+//  * 
+//  * The <program> can be: "scan", "focus", or "sort".
 
  #include "page_table.h"
  #include "disk.h"
@@ -26,37 +24,23 @@
  
  using namespace std;
  
- /************************************************************
-  * Global variables
-  ************************************************************/
- 
- // Program-f prototype
+// Global variables
+
  typedef void (*program_f)(char *data, int length);
- 
- // Number of physical frames (global for easy access in handlers)
  static int nframes = 0;
- 
- // Track which page is in each physical frame: -1 if free
  static vector<int> frame_table;
- 
- // For FIFO, we keep a queue of frame indices in their usage order
  static queue<int> fifo_queue;          
- 
- // Pointer to our disk
  static struct disk *global_disk = nullptr;
- 
- // A few counters (often required by the assignment)
  static int page_fault_count = 0; // # times we load a *not-resident* page
  static int disk_read_count   = 0; // # times we disk_read
  static int disk_write_count  = 0; // # times we disk_write
  
- /************************************************************
-  * Helper: evict_page_if_needed()
-  *    Evict the page currently occupying `victim_frame`.
-  *    - If that page is dirty, write it to disk.
-  *    - Clear the old page's bits in the page table (bits=0).
-  *    - Mark that frame as free in `frame_table`.
-  ************************************************************/
+//  Helper: evict_page_if_needed()
+//     Evict the page currently occupying `victim_frame`.
+//     - If that page is dirty, write it to disk.
+//     - Clear the old page's bits in the page table (bits=0).
+//     - Mark that frame as free in `frame_table`.
+
  static void evict_page_if_needed(struct page_table *pt, int victim_frame)
  {
      int old_page = frame_table[victim_frame];
@@ -83,9 +67,7 @@
      frame_table[victim_frame] = -1;
  }
  
- /************************************************************
-  * RANDOM Page Fault Handler
-  ************************************************************/
+//  RANDOM Page Fault Handler
  static void page_fault_handler_random(struct page_table *pt, int page)
  {
      // 1) Check current bits
@@ -143,9 +125,8 @@
      }
  }
  
- /************************************************************
-  * FIFO Page Fault Handler
-  ************************************************************/
+//  FIFO Page Fault Handler
+
  static void page_fault_handler_fifo(struct page_table *pt, int page)
  {
      int frame, bits;
@@ -202,11 +183,10 @@
      }
  }
  
- /************************************************************
-  * CUSTOM Page Fault Handler (placeholder)
-  * 
-  * For your final solution, you'd implement a better policy.
-  ************************************************************/
+
+//  CUSTOM Page Fault Handler (placeholder)
+//    For your final solution, you'd implement a better policy.
+
  static void page_fault_handler_custom(struct page_table *pt, int page)
  {
      cerr << "[CUSTOM] Page fault on page #" << page
@@ -214,9 +194,7 @@
      exit(1);
  }
  
- /************************************************************
-  * main()
-  ************************************************************/
+// main()
  int main(int argc, char *argv[])
  {
      if (argc != 5) {
