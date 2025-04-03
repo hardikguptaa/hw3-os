@@ -1,14 +1,9 @@
-//  * main.cpp
-//  * 
-//  * Corrected Demand Paging Example
-//  *  - Random replacement policy
-//  *  - FIFO replacement policy
-//  *  - Custom policy placeholder
-//  * 
-//  * Compile and run:
-//  *   ./virtmem <npages> <nframes> <rand|fifo|custom> <program>
-//  * 
-//  * The <program> can be: "scan", "focus", or "sort".
+// main.cpp 
+// Corrected Demand Paging Example
+//  - Random replacement policy
+//  - FIFO replacement policy
+//  - Custom policy placeholder
+// The <program> can be: "scan", "focus", or "sort".
 
  #include "page_table.h"
  #include "disk.h"
